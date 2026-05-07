@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RJ24 — Simple tools for a better everyday life</title>
+<meta name="description" content="RJ24 builds simple, premium digital tools for health, wellness, and everyday life. Made for real people.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Near-black + gold premium palette */
+  --bg:#0A0806;
+  --surface:#111009;
+  --surface2:#161410;
+  --card:#1C1A14;
+  --line:rgba(212,175,55,.12);
+  --line2:rgba(255,255,255,.06);
+  --gold:#D4AF37;
+  --gold2:#F0CC60;
+  --gold-dim:#8A6F1E;
+  --rose:#C84C8A;
+  --plum:#4E2955;
+  --text:#F0EDE6;
+  --muted:#8A8070;
+  --faint:#4A4438;
+  --white:#fff;
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'DM Sans',sans-serif;
+  --r:14px;
+  --tr:420ms cubic-bezier(.4,0,.2,1);
+  --content:1100px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.65}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%;height:auto}
+button{cursor:pointer;font-family:var(--fb)}
+
+/* ── GRAIN ── */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.5}
+
+/* ── NAV ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 clamp(20px,4vw,60px);display:flex;align-items:center;justify-content:space-between;transition:background var(--tr),box-shadow var(--tr)}
+#nav.scrolled{background:rgba(10,8,6,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--line)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo svg{width:32px;height:32px}
+.nav-brand{font-family:var(--fd);font-size:1.3rem;font-weight:600;color:var(--text);letter-spacing:.02em}
+.nav-brand span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{font-size:.8rem;font-weight:500;color:var(--muted);padding:7px 14px;border-radius:20px;background:none;border:none;transition:all var(--tr);letter-spacing:.02em}
+.nav-link:hover{color:var(--text);background:rgba(212,175,55,.08)}
+.nav-cta{background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:#0A0806!important;font-weight:700;padding:8px 20px;border-radius:20px;border:none;font-size:.8rem;letter-spacing:.03em;transition:all var(--tr)}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(212,175,55,.3)}
+.nav-mob{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;padding:4px}
+.mob-menu{display:none;position:fixed;inset:0;top:60px;background:rgba(10,8,6,.97);backdrop-filter:blur(20px);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.mob-menu.open{display:flex}
+.mob-menu .nav-link{font-size:1.2rem;color:var(--text)}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px clamp(20px,5vw,60px) 80px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(120px)}
+.glow1{width:700px;height:700px;background:radial-gradient(circle,rgba(212,175,55,.07) 0%,transparent 70%);top:-200px;left:50%;transform:translateX(-50%)}
+.glow2{width:400px;height:400px;background:radial-gradient(circle,rgba(200,76,138,.06) 0%,transparent 70%);bottom:0;right:-100px}
+.glow3{width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,.05) 0%,transparent 70%);bottom:100px;left:-50px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(212,175,55,.05);color:var(--gold);font-size:.7rem;font-weight:600;padding:6px 16px;border-radius:20px;margin-bottom:28px;letter-spacing:.1em;text-transform:uppercase;position:relative;z-index:1}
+.hero-eyebrow::before{content:'';width:5px;height:5px;background:var(--gold);border-radius:50%;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+.hero-title{font-family:var(--fd);font-size:clamp(3rem,7vw,7rem);color:var(--text);line-height:1.05;letter-spacing:-.01em;margin-bottom:22px;position:relative;z-index:1;font-weight:600;max-width:900px}
+.hero-title em{font-style:italic;color:var(--gold);font-weight:400}
+.hero-sub{font-size:clamp(.95rem,1.5vw,1.1rem);color:var(--muted);line-height:1.75;max-width:480px;margin:0 auto 40px;position:relative;z-index:1;font-weight:300}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:64px}
+.btn-gold{background:linear-gradient(135deg,#8A6F1E,var(--gold));color:#0A0806;padding:14px 32px;border-radius:28px;font-size:.85rem;font-weight:700;border:none;transition:all var(--tr);letter-spacing:.04em;display:inline-flex;align-items:center;gap:8px}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,175,55,.3)}
+.btn-ghost{background:transparent;color:var(--text);padding:14px 28px;border-radius:28px;font-size:.85rem;font-weight:500;border:1px solid var(--line2);transition:all var(--tr);letter-spacing:.02em}
+.btn-ghost:hover{border-color:var(--line);background:rgba(255,255,255,.04);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:40px;justify-content:center;position:relative;z-index:1;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:var(--fd);font-size:clamp(1.8rem,3vw,2.6rem);color:var(--gold);font-weight:600;line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:.72rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.3;animation:bob 2.5s ease-in-out infinite;z-index:1}
+.hero-scroll span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent)}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ── MARQUEE ── */
+.marquee-wrap{overflow:hidden;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(212,175,55,.02)}
+.marquee-track{display:flex;gap:52px;animation:marquee 26s linear infinite;white-space:nowrap}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{font-size:.72rem;font-weight:500;color:var(--faint);letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;display:flex;align-items:center;gap:10px}
+.marquee-item::after{content:'✦';color:var(--gold-dim);margin-left:52px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTIONS ── */
+section{padding:clamp(60px,8vw,120px) clamp(20px,5vw,60px);position:relative}
+.container{max-width:var(--content);margin:0 auto}
+.section-eyebrow{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;opacity:.9}
+.section-title{font-family:var(--fd);font-size:clamp(2rem,4vw,3.6rem);color:var(--text);line-height:1.12;letter-spacing:-.01em;margin-bottom:16px;font-weight:600}
+.section-sub{font-size:.95rem;color:var(--muted);line-height:1.75;max-width:480px;font-weight:300}
+
+/* ── FEATURED PRODUCT ── */
+#featured{background:var(--surface)}
+.featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:64px}
+.featured-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.25);color:var(--gold);font-size:.68rem;font-weight:700;padding:4px 12px;border-radius:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.feature-list{margin-top:28px;display:flex;flex-direction:column;gap:16px}
+.feature-row{display:flex;gap:14px;align-items:flex-start}
+.feature-icon{width:32px;height:32px;border-radius:10px;background:rgba(212,175,55,.08);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;margin-top:1px}
+.feature-body strong{display:block;font-size:.88rem;color:var(--text);margin-bottom:2px;font-weight:600;letter-spacing:.01em}
+.feature-body span{font-size:.78rem;color:var(--muted);line-height:1.55}
+.featured-cta{margin-top:36px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* APP MOCKUP */
+.mockup{background:linear-gradient(145deg,#1C1A14,#0A0806);border-radius:24px;padding:22px;border:1px solid var(--line);box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 1px rgba(212,175,55,.04);max-width:340px;width:100%;margin:0 auto}
+.mockup-header{display:flex;align-items:center;gap:8px;padding-bottom:16px;border-bottom:1px solid var(--line2);margin-bottom:16px}
+.m-dots{display:flex;gap:5px}
+.m-dot{width:8px;height:8px;border-radius:50%}
+.mockup-title{font-family:var(--fd);font-size:.85rem;color:var(--muted);margin-left:6px;font-style:italic}
+.m-row{background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:10px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.m-row-lbl{font-size:.7rem;color:var(--muted)}
+.m-row-val{font-size:.8rem;color:var(--text);font-weight:600}
+.m-chart{background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:10px;padding:14px;margin-top:4px}
+.m-chart-lbl{font-size:.65rem;color:var(--faint);letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+.m-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.m-bar-name{font-size:.65rem;color:var(--muted);width:52px;flex-shrink:0}
+.m-bar-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.m-bar-fill{height:100%;border-radius:2px;transition:width .8s ease}
+
+/* ── PRODUCTS GRID ── */
+#products{background:var(--bg)}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:20px;overflow:hidden;margin-top:56px}
+.product-card{background:var(--card);padding:32px 28px;transition:background var(--tr);position:relative;overflow:hidden}
+.product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity var(--tr)}
+.product-card:hover{background:rgba(28,26,20,1)}
+.product-card:hover::before{opacity:.5}
+.product-card-live{background:linear-gradient(145deg,#1C1A14,#211D12)}
+.product-card-live::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(212,175,55,.05),transparent 60%);pointer-events:none}
+.p-tag{display:inline-flex;align-items:center;gap:5px;font-size:.63rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:3px 10px;border-radius:8px;margin-bottom:14px}
+.p-tag-live{background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);color:var(--gold)}
+.p-tag-soon{background:rgba(255,255,255,.04);border:1px solid var(--line2);color:var(--faint)}
+.p-icon{font-size:2rem;margin-bottom:14px;display:block}
+.p-name{font-family:var(--fd);font-size:1.25rem;color:var(--text);margin-bottom:8px;font-weight:600;letter-spacing:.01em}
+.p-desc{font-size:.8rem;color:var(--muted);line-height:1.65;margin-bottom:18px}
+.p-features{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px}
+.p-feat{font-size:.65rem;background:rgba(255,255,255,.04);color:var(--muted);padding:3px 9px;border-radius:8px;letter-spacing:.03em}
+.p-link{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;color:var(--gold);letter-spacing:.02em;transition:gap var(--tr)}
+.p-link:hover{gap:9px}
+.p-link-dim{color:var(--faint);cursor:default}
+
+/* ── LEAD MAGNET ── */
+#lead{background:var(--surface)}
+.lead-inner{background:linear-gradient(135deg,#1C1A14,#211D12);border:1px solid var(--line);border-radius:24px;padding:clamp(32px,5vw,60px);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;overflow:hidden}
+.lead-inner::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(212,175,55,.07),transparent 70%);pointer-events:none}
+.lead-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);color:var(--gold);font-size:.68rem;font-weight:700;padding:4px 12px;border-radius:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.lead-form{display:flex;flex-direction:column;gap:10px}
+.lead-input{background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:10px;padding:12px 16px;font-size:.85rem;color:var(--text);font-family:var(--fb);outline:none;transition:border-color var(--tr)}
+.lead-input:focus{border-color:rgba(212,175,55,.4)}
+.lead-input::placeholder{color:var(--faint)}
+.lead-note{font-size:.68rem;color:var(--faint);margin-top:4px;line-height:1.5}
+
+/* ── WHY RJ24 ── */
+#why{background:var(--bg)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:20px;overflow:hidden;margin-top:48px}
+.why-card{background:var(--card);padding:28px 24px;transition:background var(--tr)}
+.why-card:hover{background:rgba(28,26,20,1)}
+.why-icon{font-size:1.4rem;margin-bottom:12px;opacity:.9}
+.why-name{font-family:var(--fd);font-size:1.05rem;color:var(--text);margin-bottom:6px;font-weight:600;letter-spacing:.01em}
+.why-desc{font-size:.78rem;color:var(--muted);line-height:1.65}
+
+/* ── COMING SOON ── */
+#coming{background:var(--surface)}
+.coming-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:40px}
+.coming-card{background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.07);border-radius:16px;padding:22px 18px;transition:all var(--tr)}
+.coming-card:hover{background:rgba(255,255,255,.04);border-color:rgba(212,175,55,.2)}
+.coming-icon{font-size:1.5rem;margin-bottom:10px;opacity:.6}
+.coming-name{font-size:.88rem;font-weight:600;color:var(--muted);margin-bottom:4px;letter-spacing:.01em}
+.coming-desc{font-size:.73rem;color:var(--faint);line-height:1.55}
+
+/* ── CTA ── */
+#cta{background:var(--bg);padding:clamp(60px,8vw,120px) clamp(20px,5vw,60px)}
+.cta-inner{background:linear-gradient(135deg,#1C1A14,#211D12);border:1px solid var(--line);border-radius:28px;padding:clamp(40px,6vw,80px);text-align:center;position:relative;overflow:hidden;max-width:800px;margin:0 auto}
+.cta-inner::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(212,175,55,.08),transparent 70%);pointer-events:none}
+.cta-inner h2{font-family:var(--fd);font-size:clamp(2rem,4vw,3.2rem);color:var(--text);margin-bottom:12px;font-weight:600;line-height:1.15;position:relative;z-index:1}
+.cta-inner h2 em{font-style:italic;color:var(--gold);font-weight:400}
+.cta-inner p{font-size:.92rem;color:var(--muted);margin-bottom:32px;font-weight:300;position:relative;z-index:1}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+
+/* ── FOOTER ── */
+footer{background:var(--surface);border-top:1px solid var(--line);padding:clamp(40px,5vw,72px) clamp(20px,5vw,60px) clamp(24px,3vw,40px)}
+.footer-inner{max-width:var(--content);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-logo-text{font-family:var(--fd);font-size:1.15rem;color:var(--text);margin-bottom:8px;font-weight:600}
+.footer-logo-text span{color:var(--gold)}
+.footer-tagline{font-size:.78rem;color:var(--muted);line-height:1.65;max-width:220px;font-weight:300}
+.footer-col h4{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+.footer-col a{display:block;font-size:.8rem;color:var(--muted);margin-bottom:9px;transition:color var(--tr)}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid var(--line2);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bottom p{font-size:.72rem;color:var(--faint)}
+.footer-bottom span{color:var(--gold);font-size:.72rem}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.08s}
+.reveal-d2{transition-delay:.16s}
+.reveal-d3{transition-delay:.24s}
+.reveal-d4{transition-delay:.32s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .featured-grid{grid-template-columns:1fr;gap:40px}
+  .mockup{display:none}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+  .lead-inner{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-mob{display:block}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .hero-stats{gap:24px}
+}
+@media(max-width:480px){
+  .products-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .coming-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 32 32" fill="none" aria-label="RJ24 logo">
+      <rect width="32" height="32" rx="8" fill="#1C1A14"/>
+      <text x="5" y="22" font-family="Georgia,serif" font-size="14" font-weight="700" fill="#D4AF37">RJ</text>
+      <text x="5" y="29" font-family="Georgia,serif" font-size="8" font-weight="400" fill="#8A6F1E" letter-spacing="1">24</text>
+    </svg>
+    <span class="nav-brand">RJ<span>24</span></span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="scrollTo('products')">Products</button>
+    <button class="nav-link" onclick="scrollTo('lead')">Free Guide</button>
+    <button class="nav-link" onclick="scrollTo('why')">About</button>
+    <button class="nav-link" onclick="scrollTo('coming')">Coming Soon</button>
+    <button class="nav-cta" onclick="openCurrencyModal()">Get Cycle Calm</button>
+  </div>
+  <button class="nav-mob" onclick="toggleMenu()" aria-label="Menu">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mob-menu">
+  <button class="nav-link" onclick="scrollTo('products');toggleMenu()">Products</button>
+  <button class="nav-link" onclick="scrollTo('lead');toggleMenu()">Free Guide</button>
+  <button class="nav-link" onclick="scrollTo('why');toggleMenu()">About</button>
+  <button class="nav-link" onclick="scrollTo('coming');toggleMenu()">Coming Soon</button>
+  <button class="btn-gold" onclick="openCurrencyModal()">Get Cycle Calm ✦</button>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow glow1"></div>
+  <div class="hero-glow glow2"></div>
+  <div class="hero-glow glow3"></div>
+  <div class="hero-eyebrow reveal"><span>✦</span> Cycle Calm is live now</div>
+  <h1 class="hero-title reveal reveal-d1">Simple tools for a<br><em>better everyday life.</em></h1>
+  <p class="hero-sub reveal reveal-d2">RJ24 builds clean, private digital tools for health, wellness, and productivity. Made for real people — no fluff, no data leaks.</p>
+  <div class="hero-actions reveal reveal-d3">
+    <button class="btn-gold" onclick="scrollTo('products')">Explore Products ✦</button>
+    <button class="btn-ghost" onclick="scrollTo('why')">Our story →</button>
+  </div>
+  <div class="hero-stats reveal reveal-d4">
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Private</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-lbl">Data shared</div></div>
+    <div class="stat"><div class="stat-num">₹0</div><div class="stat-lbl">To get started</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-lbl">Offline use</div></div>
+  </div>
+  <div class="hero-scroll"><span>scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Cycle Tracking</span>
+    <span class="marquee-item">Symptom Insights</span>
+    <span class="marquee-item">Doctor Prep</span>
+    <span class="marquee-item">Habit Streaks</span>
+    <span class="marquee-item">100% Private</span>
+    <span class="marquee-item">Works Offline</span>
+    <span class="marquee-item">Dark Mode</span>
+    <span class="marquee-item">UPI + Wise</span>
+    <span class="marquee-item">Made in India</span>
+    <span class="marquee-item">Zero Data Shared</span>
+    <!-- duplicate -->
+    <span class="marquee-item">Cycle Tracking</span>
+    <span class="marquee-item">Symptom Insights</span>
+    <span class="marquee-item">Doctor Prep</span>
+    <span class="marquee-item">Habit Streaks</span>
+    <span class="marquee-item">100% Private</span>
+    <span class="marquee-item">Works Offline</span>
+    <span class="marquee-item">Dark Mode</span>
+    <span class="marquee-item">UPI + Wise</span>
+    <span class="marquee-item">Made in India</span>
+    <span class="marquee-item">Zero Data Shared</span>
+  </div>
+</div>
+
+<!-- FEATURED PRODUCT -->
+<section id="featured">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">Featured Product</span>
+      <h2 class="section-title">Meet Cycle Calm.</h2>
+      <p class="section-sub">The only cycle tracker that never asks for your data. Track, understand, and prepare — entirely on your device.</p>
+    </div>
+    <div class="featured-grid">
+      <div class="reveal reveal-d1">
+        <div class="featured-tag">✅ Live Now</div>
+        <div class="feature-list">
+          <div class="feature-row">
+            <div class="feature-icon">📊</div>
+            <div class="feature-body"><strong>Daily Tracker</strong><span>Pain, flow, mood, energy, sleep — logged in under 2 minutes</span></div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-icon">📈</div>
+            <div class="feature-body"><strong>Symptom Insights</strong><span>Visual patterns across your full history — spot what triggers what</span></div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-icon">🩺</div>
+            <div class="feature-body"><strong>Doctor Prep</strong><span>Auto-filled print report from your real data — bring it to any appointment</span></div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-icon">🌿</div>
+            <div class="feature-body"><strong>Habit Streaks</strong><span>Build daily wellness habits with streak tracking and reminders</span></div>
+          </div>
+          <div class="feature-row">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-body"><strong>100% Private</strong><span>No login. No account. No cloud. Data lives only on your device, forever</span></div>
+          </div>
+        </div>
+        <div class="featured-cta">
+          <button class="btn-gold" onclick="openCurrencyModal()" id="get-btn">Get it now ✦ <span id="discount-badge" style="display:none;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:8px;font-size:.7rem;margin-left:4px;animation:flash .8s ease-in-out infinite">🔥 20% OFF</span></button>
+          <button class="btn-ghost" onclick="openCurrencyModal()">Choose currency →</button>
+        </div>
+        <p id="launch-offer" style="font-size:.72rem;color:var(--gold);margin-top:10px;opacity:.85">⏳ Launch price — limited time only</p>
+      </div>
+      <div class="reveal reveal-d2">
+        <div class="mockup">
+          <div class="mockup-header">
+            <div class="m-dots">
+              <div class="m-dot" style="background:#FF5F57"></div>
+              <div class="m-dot" style="background:#FFBD2E"></div>
+              <div class="m-dot" style="background:#28CA42"></div>
+            </div>
+            <span class="mockup-title">🌸 Cycle Calm</span>
+          </div>
+          <div class="m-row"><span class="m-row-lbl">Next Period</span><span class="m-row-val" style="color:#D4AF37">in 7 days 🔮</span></div>
+          <div class="m-row"><span class="m-row-lbl">Today — Day 21</span><span class="m-row-val">Luteal Phase 🌿</span></div>
+          <div class="m-row"><span class="m-row-lbl">Pain Score</span><span class="m-row-val">3 / 10 ✅</span></div>
+          <div class="m-chart">
+            <div class="m-chart-lbl">Symptom Frequency</div>
+            <div class="m-bar"><span class="m-bar-name">Cramps</span><div class="m-bar-track"><div class="m-bar-fill" style="width:72%;background:linear-gradient(to right,#8A6F1E,#D4AF37)"></div></div></div>
+            <div class="m-bar"><span class="m-bar-name">Bloating</span><div class="m-bar-track"><div class="m-bar-fill" style="width:55%;background:linear-gradient(to right,#3A5A3A,#6F9B68)"></div></div></div>
+            <div class="m-bar"><span class="m-bar-name">Fatigue</span><div class="m-bar-track"><div class="m-bar-fill" style="width:48%;background:linear-gradient(to right,#4E2955,#8B3FA8)"></div></div></div>
+            <div class="m-bar"><span class="m-bar-name">Headache</span><div class="m-bar-track"><div class="m-bar-fill" style="width:30%;background:linear-gradient(to right,#3A2A1E,#8B6040)"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">Our Products</span>
+      <h2 class="section-title">One tool.<br>Real impact.</h2>
+      <p class="section-sub">We build what actually solves a problem — nothing filler, nothing rushed.</p>
+    </div>
+    <div class="products-grid reveal reveal-d1">
+      <div class="product-card product-card-live">
+        <span class="p-icon">🌸</span>
+        <div class="p-tag p-tag-live">✦ Live Now</div>
+        <div class="p-name">Cycle Calm</div>
+        <div class="p-desc">Private, offline-first menstrual cycle tracker. Track pain, mood, flow, symptoms. Get insights and prepare for doctor visits — no account needed.</div>
+        <div class="p-features">
+          <span class="p-feat">Daily Tracker</span>
+          <span class="p-feat">Insights</span>
+          <span class="p-feat">Doctor Prep</span>
+          <span class="p-feat">Habits</span>
+          <span class="p-feat">Offline</span>
+          <span class="p-feat">Dark Mode</span>
+        </div>
+        <span class="p-link" onclick="openCurrencyModal()" style="cursor:pointer">Get it now ✦ →</span>
+      </div>
+      <div class="product-card">
+        <span class="p-icon">🧘</span>
+        <div class="p-tag p-tag-soon">Coming Soon</div>
+        <div class="p-name">Hormone Reset Guide</div>
+        <div class="p-desc">Evidence-backed daily habits to balance hormones naturally. Phase-synced, printable, and built for real life.</div>
+        <div class="p-features"><span class="p-feat">Daily Habits</span><span class="p-feat">Phase-based</span><span class="p-feat">PDF Guide</span></div>
+        <span class="p-link p-link-dim">Notify me soon →</span>
+      </div>
+      <div class="product-card">
+        <span class="p-icon">🍽</span>
+        <div class="p-tag p-tag-soon">Coming Soon</div>
+        <div class="p-name">Cycle Nutrition Planner</div>
+        <div class="p-desc">Phase-synced weekly meal plans and grocery lists. Eat in sync with your cycle, simply.</div>
+        <div class="p-features"><span class="p-feat">4-Phase Plans</span><span class="p-feat">Grocery List</span><span class="p-feat">Simple Recipes</span></div>
+        <span class="p-link p-link-dim">Notify me soon →</span>
+      </div>
+      <div class="product-card">
+        <span class="p-icon">💬</span>
+        <div class="p-tag p-tag-soon">Coming Soon</div>
+        <div class="p-name">RJ24 Community</div>
+        <div class="p-desc">A private space to share, learn, and feel supported. Real conversations about health, wellness, and everyday life.</div>
+        <div class="p-features"><span class="p-feat">Private Group</span><span class="p-feat">Expert Q&A</span><span class="p-feat">Challenges</span></div>
+        <span class="p-link p-link-dim">Join waitlist →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD MAGNET -->
+<section id="lead">
+  <div class="container">
+    <div class="lead-inner reveal">
+      <div>
+        <div class="lead-badge">✦ Free Download</div>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.8rem)">5-Day Cycle Calm<br><em style="color:var(--gold)">Starter Guide</em></h2>
+        <p class="section-sub" style="margin-top:12px">5 things to track, understand, and do in your first 5 days. Free. No account. Straight to your inbox.</p>
+        <p style="font-size:.75rem;color:var(--faint);margin-top:20px;line-height:1.6">✦ Understanding your cycle basics<br>✦ What to track daily<br>✦ How to read your patterns<br>✦ Preparing for your first doctor visit<br>✦ Setting up Cycle Calm step by step</p>
+      </div>
+      <div>
+        <form class="lead-form" onsubmit="submitLead(event)">
+          <input class="lead-input" type="text" placeholder="Your first name" id="lead-name" required>
+          <input class="lead-input" type="email" placeholder="Your email address" id="lead-email" required>
+          <button class="btn-gold" type="submit" style="justify-content:center;margin-top:4px">Send me the free guide ✦</button>
+          <p class="lead-note">✦ No spam, ever. Unsubscribe anytime. We hate spam as much as you do.</p>
+        </form>
+        <div id="lead-success" style="display:none;text-align:center;padding:24px 0">
+          <div style="font-size:2rem;margin-bottom:10px">✦</div>
+          <div style="font-family:var(--fd);font-size:1.3rem;color:var(--gold);margin-bottom:8px">On its way!</div>
+          <div style="font-size:.82rem;color:var(--muted)">Check your inbox in the next few minutes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY RJ24 -->
+<section id="why">
+  <div class="container">
+    <div class="reveal" style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:0">
+      <span class="section-eyebrow">Why RJ24</span>
+      <h2 class="section-title">Built different.<br>On purpose.</h2>
+      <p class="section-sub" style="margin:0 auto">Not a startup. Not funded. Just builders who noticed problems and made the solution they wished existed.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal reveal-d1">
+        <div class="why-icon">🎯</div>
+        <div class="why-name">Problem-first, always</div>
+        <div class="why-desc">We only build tools that solve a real, felt pain. No trend-chasing. No filler products.</div>
+      </div>
+      <div class="why-card reveal reveal-d2">
+        <div class="why-icon">🔒</div>
+        <div class="why-name">Privacy by design</div>
+        <div class="why-desc">Your data is yours. Our tools work offline-first and never send your information anywhere.</div>
+      </div>
+      <div class="why-card reveal reveal-d3">
+        <div class="why-icon">✦</div>
+        <div class="why-name">Simple over complex</div>
+        <div class="why-desc">Every screen, every word, every feature is questioned. If it doesn't help, it doesn't ship.</div>
+      </div>
+      <div class="why-card reveal reveal-d4">
+        <div class="why-icon">💜</div>
+        <div class="why-name">Made with genuine care</div>
+        <div class="why-desc">Small team, real users, direct feedback. We use our own tools — and it shows.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMING SOON -->
+<section id="coming">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">What's Next</span>
+      <h2 class="section-title">More tools.<br>More categories.</h2>
+      <p class="section-sub">Health is just the beginning. We're building across wellness, focus, and everyday productivity.</p>
+    </div>
+    <div class="coming-grid reveal">
+      <div class="coming-card"><div class="coming-icon">🧠</div><div class="coming-name">Focus Toolkit</div><div class="coming-desc">Simple systems for deep work and mental clarity</div></div>
+      <div class="coming-card"><div class="coming-icon">💰</div><div class="coming-name">Expense Calm</div><div class="coming-desc">Private offline expense tracker — no bank logins</div></div>
+      <div class="coming-card"><div class="coming-icon">😴</div><div class="coming-name">Sleep Journal</div><div class="coming-desc">Track sleep quality and patterns over time</div></div>
+      <div class="coming-card"><div class="coming-icon">📓</div><div class="coming-name">Daily Planner</div><div class="coming-desc">Minimal daily structure — tasks, reflection, habits</div></div>
+      <div class="coming-card"><div class="coming-icon">🌱</div><div class="coming-name">Wellness Audit</div><div class="coming-desc">Quarterly health and lifestyle check-in tool</div></div>
+      <div class="coming-card"><div class="coming-icon">📦</div><div class="coming-name">RJ24 Bundle</div><div class="coming-desc">All core tools in one package at one price</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner reveal">
+    <h2>Start with Cycle Calm.<br><em>More is coming.</em></h2>
+    <p>Private by design. Works offline. Made for real life.</p>
+    <div class="cta-btns">
+      <button class="btn-gold" onclick="openCurrencyModal()">Get Cycle Calm ✦</button>
+      <button class="btn-ghost" onclick="scrollTo('products')">See all products</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-text">RJ<span>24</span></div>
+        <p class="footer-tagline">Simple tools for a better everyday life. Built with care by a small team that genuinely means it.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#products" onclick="scrollTo('products');return false;">Cycle Calm ✦</a>
+        <a href="#coming" onclick="scrollTo('coming');return false;">Hormone Reset Guide</a>
+        <a href="#coming" onclick="scrollTo('coming');return false;">Cycle Nutrition</a>
+        <a href="#coming" onclick="scrollTo('coming');return false;">RJ24 Community</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#why" onclick="scrollTo('why');return false;">About RJ24</a>
+        <a href="#lead" onclick="scrollTo('lead');return false;">Free Guide</a>
+        <a href="mailto:support@rj24.in">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>More</h4>
+        <a href="#coming" onclick="scrollTo('coming');return false;">Coming Soon</a>
+        <a href="https://whop.com/rj24-health-solutions" target="_blank" rel="noopener">Whop Store</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 RJ24 Health Solutions. All rights reserved.</p>
+      <span>Made with ✦ in India</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// NAV scroll
+window.addEventListener('scroll',function(){
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>40);
+});
+
+// Smooth scroll
+function scrollTo(id){
+  var el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// Mobile menu
+function toggleMenu(){
+  document.getElementById('mob-menu').classList.toggle('open');
+}
+
+// Scroll reveal
+var obs=new IntersectionObserver(function(e){
+  e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+
+// Currency modal
+function openCurrencyModal(){
+  document.getElementById('currency-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeCurrencyModal(){
+  document.getElementById('currency-modal').style.display='none';
+  document.body.style.overflow='';
+}
+function pay(currency){
+  closeCurrencyModal();
+  if(currency==='INR'){
+    // GPay / UPI deep link with fixed ₹249
+    var upiLink='upi://pay?pa=rajt66679-1@oksbi&pn=RJ24+Health&am=249&cu=INR&tn=Cycle+Calm+by+RJ24';
+    // Try to open UPI app; fallback QR hint
+    window.location.href=upiLink;
+  } else if(currency==='USD'){
+    window.open('https://wise.com/pay/r/0DKZY7ThXKHuKPY','_blank');
+  } else if(currency==='GBP'){
+    window.open('https://wise.com/pay/r/lHIXVkbd9HH2dSs','_blank');
+  } else if(currency==='EUR'){
+    window.open('https://wise.com/pay/r/gQ6YllNq66rbAAg','_blank');
+  }
+}
+// Discount badge show on hover of get-btn
+var getBtn=document.getElementById('get-btn');
+if(getBtn){
+  getBtn.addEventListener('mouseenter',function(){
+    document.getElementById('discount-badge').style.display='inline-block';
+  });
+  getBtn.addEventListener('mouseleave',function(){
+    document.getElementById('discount-badge').style.display='none';
+  });
+}
+// INR panel toggle
+function toggleINR(){
+  var panel=document.getElementById('inr-panel');
+  panel.style.display = panel.style.display==='none' ? 'block' : 'none';
+}
+// Close modal on backdrop click (guard for load order)
+var currencyModal=document.getElementById('currency-modal');
+if(currencyModal){
+  currencyModal.addEventListener('click',function(e){
+    if(e.target===this) closeCurrencyModal();
+  });
+}
+
+// Lead form
+function submitLead(e){
+  e.preventDefault();
+  document.querySelector('.lead-form').style.display='none';
+  document.getElementById('lead-success').style.display='block';
+  // TODO: connect to Brevo/Tally form endpoint
+}
+</script>
+
+<!-- CURRENCY MODAL -->
+<div id="currency-modal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#1C1A14;border:1px solid rgba(212,175,55,.2);border-radius:24px;padding:36px 32px;max-width:440px;width:100%;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.6)">
+    <button onclick="closeCurrencyModal()" style="position:absolute;top:16px;right:18px;background:none;border:none;color:#8A8070;font-size:1.3rem;cursor:pointer;line-height:1">✕</button>
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:2rem;margin-bottom:8px">🌸</div>
+      <h3 style="font-family:var(--fd);font-size:1.6rem;color:var(--text);margin-bottom:6px;font-weight:600">Get Cycle Calm</h3>
+      <p style="font-size:.8rem;color:var(--muted)">Choose your currency to pay</p>
+      <div style="display:inline-block;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.25);color:var(--gold);font-size:.68rem;font-weight:700;padding:4px 14px;border-radius:10px;margin-top:10px;letter-spacing:.06em">🔥 Launch Price — Limited Time</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <!-- INR — tap to toggle QR -->
+      <div id="inr-block" style="background:linear-gradient(135deg,#1a1700,#2a2200);border:1px solid rgba(212,175,55,.3);border-radius:14px;overflow:hidden;transition:border-color .3s" onmouseover="this.style.borderColor='#D4AF37'" onmouseout="this.style.borderColor='rgba(212,175,55,.3)'">
+        <button onclick="toggleINR()" style="width:100%;background:none;border:none;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:var(--fb)">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:1.2rem">🇮🇳</span>
+            <div style="text-align:left">
+              <div style="font-size:.88rem;font-weight:700;color:#F0EDE6">Indian Rupee</div>
+              <div style="font-size:.7rem;color:#8A8070">UPI · GPay · PhonePe · Any bank</div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:1rem;font-weight:700;color:#D4AF37">₹249</div>
+            <div style="font-size:.65rem;color:#8A6F1E;text-decoration:line-through">₹399</div>
+          </div>
+        </button>
+        <!-- QR + pay options panel -->
+        <div id="inr-panel" style="display:none;padding:0 20px 20px;border-top:1px solid rgba(212,175,55,.1)">
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:16px">
+            <div style="background:#1C1A14;border-radius:10px;padding:8px;border:1px solid rgba(212,175,55,.2);text-align:center">
+              <img src="data:image/png;base64,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" style="width:120px;height:120px;display:block;border-radius:6px" alt="UPI QR ₹249">
+              <div style="font-size:.6rem;color:#8A6F1E;margin-top:4px;letter-spacing:.05em">SCAN TO PAY</div>
+            </div>
+            <div>
+              <div style="font-size:.75rem;color:#8A8070;line-height:1.65;margin-bottom:10px">📱 <strong style="color:#F0EDE6">On mobile:</strong> tap below to open UPI app directly<br>💻 <strong style="color:#F0EDE6">On desktop:</strong> scan QR with your phone camera</div>
+              <button onclick="pay('INR')" style="background:linear-gradient(135deg,#8A6F1E,#D4AF37);color:#0A0806;border:none;border-radius:10px;padding:10px 16px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--fb);width:100%;letter-spacing:.02em">Open UPI App → Pay ₹249</button>
+              <div style="font-size:.65rem;color:#4A4438;margin-top:8px">GPay · PhonePe · Paytm · Any UPI app</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button onclick="pay('USD')" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .3s;font-family:var(--fb)" onmouseover="this.style.borderColor='rgba(212,175,55,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:1.2rem">🇺🇸</span>
+          <div style="text-align:left">
+            <div style="font-size:.88rem;font-weight:700;color:#F0EDE6">US Dollar</div>
+            <div style="font-size:.7rem;color:#8A8070">Wise · Card · Bank transfer</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:1rem;font-weight:700;color:#F0EDE6">$6.79</div>
+          <div style="font-size:.65rem;color:#4A4438;text-decoration:line-through">$9.99</div>
+        </div>
+      </button>
+      <button onclick="pay('GBP')" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .3s;font-family:var(--fb)" onmouseover="this.style.borderColor='rgba(212,175,55,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:1.2rem">🇬🇧</span>
+          <div style="text-align:left">
+            <div style="font-size:.88rem;font-weight:700;color:#F0EDE6">British Pound</div>
+            <div style="font-size:.7rem;color:#8A8070">Wise · Card · Bank transfer</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:1rem;font-weight:700;color:#F0EDE6">£5.00</div>
+          <div style="font-size:.65rem;color:#4A4438;text-decoration:line-through">£7.99</div>
+        </div>
+      </button>
+      <button onclick="pay('EUR')" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .3s;font-family:var(--fb)" onmouseover="this.style.borderColor='rgba(212,175,55,.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,.07)'">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:1.2rem">🇪🇺</span>
+          <div style="text-align:left">
+            <div style="font-size:.88rem;font-weight:700;color:#F0EDE6">Euro</div>
+            <div style="font-size:.7rem;color:#8A8070">Wise · Card · Bank transfer</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:1rem;font-weight:700;color:#F0EDE6">€5.79</div>
+          <div style="font-size:.65rem;color:#4A4438;text-decoration:line-through">€8.99</div>
+        </div>
+      </button>
+    </div>
+    <p style="text-align:center;font-size:.68rem;color:#4A4438;margin-top:18px;line-height:1.5">🔒 Secure payment via UPI or Wise · 100% private · Instant delivery</p>
+  </div>
+</div>
+
+<style>
+@keyframes flash{0%,100%{opacity:1}50%{opacity:.4}}
+</style>
+
+</body>
+</html>
