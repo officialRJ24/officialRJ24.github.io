@@ -75,7 +75,6 @@
     <span class="marquee-item">UPI + Wise</span>
     <span class="marquee-item">Made in India</span>
     <span class="marquee-item">Zero Data Shared</span>
-    <!-- duplicate -->
     <span class="marquee-item">Cycle Tracking</span>
     <span class="marquee-item">Symptom Insights</span>
     <span class="marquee-item">Doctor Prep</span>
@@ -189,18 +188,10 @@
       <div class="product-card">
         <span class="p-icon">🍽</span>
         <div class="p-tag p-tag-soon">Coming Soon</div>
-        <div class="p-name">Cycle Nutrition Planner</div>
-        <div class="p-desc">Phase-synced weekly meal plans and grocery lists. Eat in sync with your cycle, simply.</div>
-        <div class="p-features"><span class="p-feat">4-Phase Plans</span><span class="p-feat">Grocery List</span><span class="p-feat">Simple Recipes</span></div>
-        <span class="p-link p-link-dim">Notify me soon →</span>
-      </div>
-      <div class="product-card">
-        <span class="p-icon">💬</span>
-        <div class="p-tag p-tag-soon">Coming Soon</div>
-        <div class="p-name">RJ24 Community</div>
-        <div class="p-desc">A private space to share, learn, and feel supported. Real conversations about health, wellness, and everyday life.</div>
-        <div class="p-features"><span class="p-feat">Private Group</span><span class="p-feat">Expert Q&A</span><span class="p-feat">Challenges</span></div>
-        <span class="p-link p-link-dim">Join waitlist →</span>
+        <div class="p-name">Cycle Nutrition</div>
+        <div class="p-desc">Eat according to your cycle. Phase-based meal guidance, simple swaps, and a printable food guide.</div>
+        <div class="p-features"><span class="p-feat">Phase Meals</span><span class="p-feat">Simple Swaps</span><span class="p-feat">Printable</span></div>
+        <span class="p-link p-link-dim">Coming soon →</span>
       </div>
     </div>
   </div>
@@ -211,22 +202,30 @@
   <div class="container">
     <div class="lead-inner reveal">
       <div>
-        <div class="lead-badge">✦ Free Download</div>
-        <h2 class="section-title" style="font-size:clamp(1.8rem,3vw,2.8rem)">5-Day Cycle Calm<br><em style="color:var(--gold)">Starter Guide</em></h2>
-        <p class="section-sub" style="margin-top:12px">5 things to track, understand, and do in your first 5 days. Free. No account. Straight to your inbox.</p>
-        <p style="font-size:.75rem;color:var(--faint);margin-top:20px;line-height:1.6">✦ Understanding your cycle basics<br>✦ What to track daily<br>✦ How to read your patterns<br>✦ Preparing for your first doctor visit<br>✦ Setting up Cycle Calm step by step</p>
+        <span class="section-eyebrow">Free Guide</span>
+        <h2 class="section-title">5-Day Cycle<br>Starter Guide.</h2>
+        <p class="section-sub">5 things to track, understand, and do in your first 5 days. Free. No account. Straight to your inbox.</p>
+        <ul class="lead-list">
+          <li>✦ Understanding your cycle basics</li>
+          <li>✦ What to track daily</li>
+          <li>✦ How to read your patterns</li>
+          <li>✦ Preparing for your first doctor visit</li>
+          <li>✦ Setting up Cycle Calm step by step</li>
+        </ul>
       </div>
       <div>
         <form class="lead-form" onsubmit="submitLead(event)">
-          <input class="lead-input" type="text" placeholder="Your first name" id="lead-name" required>
-          <input class="lead-input" type="email" placeholder="Your email address" id="lead-email" required>
-          <button class="btn-gold" type="submit" style="justify-content:center;margin-top:4px">Send me the free guide ✦</button>
-          <p class="lead-note">✦ No spam, ever. Unsubscribe anytime. We hate spam as much as you do.</p>
+          <label for="lead-name">Your name</label>
+          <input id="lead-name" type="text" placeholder="Priya" required>
+          <label for="lead-email">Email address</label>
+          <input id="lead-email" type="email" placeholder="you@email.com" required>
+          <button type="submit" class="btn-gold" style="width:100%;justify-content:center;margin-top:8px">Send me the free guide ✦</button>
+          <p style="font-size:.68rem;color:var(--faint);margin-top:10px;text-align:center">No spam. Unsubscribe any time. 100% free.</p>
         </form>
-        <div id="lead-success" style="display:none;text-align:center;padding:24px 0">
-          <div style="font-size:2rem;margin-bottom:10px">✦</div>
-          <div style="font-family:var(--fd);font-size:1.3rem;color:var(--gold);margin-bottom:8px">On its way!</div>
-          <div style="font-size:.82rem;color:var(--muted)">Check your inbox in the next few minutes.</div>
+        <div id="lead-success" style="display:none;text-align:center;padding:40px 20px">
+          <div style="font-size:2.5rem;margin-bottom:12px">🌸</div>
+          <h3 style="font-family:var(--fd);font-size:1.4rem;color:var(--text);margin-bottom:8px">Guide is on its way!</h3>
+          <p style="font-size:.85rem;color:var(--muted)">Check your inbox in the next few minutes.</p>
         </div>
       </div>
     </div>
@@ -331,8 +330,6 @@
   </div>
 </footer>
 
-<script src="script.js" defer></script>
-
 <!-- CURRENCY MODAL -->
 <div id="currency-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="currency-title" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
   <div style="background:#1C1A14;border:1px solid rgba(212,175,55,.2);border-radius:24px;padding:36px 32px;max-width:440px;width:100%;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.6)">
@@ -344,7 +341,6 @@
       <div style="display:inline-block;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.25);color:var(--gold);font-size:.68rem;font-weight:700;padding:4px 14px;border-radius:10px;margin-top:10px;letter-spacing:.06em">🔥 Launch Price — Limited Time</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
-      <!-- INR — tap to toggle QR -->
       <div id="inr-block" style="background:linear-gradient(135deg,#1a1700,#2a2200);border:1px solid rgba(212,175,55,.3);border-radius:14px;overflow:hidden;transition:border-color .3s" onmouseover="this.style.borderColor='#D4AF37'" onmouseout="this.style.borderColor='rgba(212,175,55,.3)'">
         <button onclick="toggleINR()" style="width:100%;background:none;border:none;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:var(--fb)">
           <div style="display:flex;align-items:center;gap:10px">
@@ -359,7 +355,6 @@
             <div style="font-size:.65rem;color:#8A6F1E;text-decoration:line-through">₹399</div>
           </div>
         </button>
-        <!-- QR + pay options panel -->
         <div id="inr-panel" style="display:none;padding:0 20px 20px;border-top:1px solid rgba(212,175,55,.1)">
           <div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:16px">
             <div style="background:#1C1A14;border-radius:10px;padding:8px;border:1px solid rgba(212,175,55,.2);text-align:center">
