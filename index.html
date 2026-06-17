@@ -574,11 +574,20 @@ document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 
 // Currency modal
 function openCurrencyModal(){
-  document.getElementById('currency-modal').style.display='flex';
+  var modal=document.getElementById('currency-modal');
+  modal.style.display='flex';
+  modal.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
+  var closeBtn=modal.querySelector('button[onclick="closeCurrencyModal()"]');
+  if(closeBtn){
+    closeBtn.setAttribute('aria-label','Close currency options');
+    closeBtn.focus();
+  }
 }
 function closeCurrencyModal(){
-  document.getElementById('currency-modal').style.display='none';
+  var modal=document.getElementById('currency-modal');
+  modal.style.display='none';
+  modal.setAttribute('aria-hidden','true');
   document.body.style.overflow='';
 }
 function pay(currency){
@@ -618,6 +627,11 @@ if(currencyModal){
     if(e.target===this) closeCurrencyModal();
   });
 }
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape' && currencyModal && currencyModal.style.display==='flex'){
+    closeCurrencyModal();
+  }
+});
 
 // Lead form
 function submitLead(e){
@@ -629,12 +643,12 @@ function submitLead(e){
 </script>
 
 <!-- CURRENCY MODAL -->
-<div id="currency-modal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+<div id="currency-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="currency-title" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.75);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
   <div style="background:#1C1A14;border:1px solid rgba(212,175,55,.2);border-radius:24px;padding:36px 32px;max-width:440px;width:100%;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.6)">
     <button onclick="closeCurrencyModal()" style="position:absolute;top:16px;right:18px;background:none;border:none;color:#8A8070;font-size:1.3rem;cursor:pointer;line-height:1">✕</button>
     <div style="text-align:center;margin-bottom:28px">
       <div style="font-size:2rem;margin-bottom:8px">🌸</div>
-      <h3 style="font-family:var(--fd);font-size:1.6rem;color:var(--text);margin-bottom:6px;font-weight:600">Get Cycle Calm</h3>
+      <h3 id="currency-title" style="font-family:var(--fd);font-size:1.6rem;color:var(--text);margin-bottom:6px;font-weight:600">Get Cycle Calm</h3>
       <p style="font-size:.8rem;color:var(--muted)">Choose your currency to pay</p>
       <div style="display:inline-block;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.25);color:var(--gold);font-size:.68rem;font-weight:700;padding:4px 14px;border-radius:10px;margin-top:10px;letter-spacing:.06em">🔥 Launch Price — Limited Time</div>
     </div>
