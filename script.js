@@ -26,18 +26,26 @@ function toggleMenu() {
 }
 
 /* ── SCROLL REVEAL ── */
-var revealObs = new IntersectionObserver(function (entries) {
-  entries.forEach(function (entry) {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObs.unobserve(entry.target);
+var obs = new IntersectionObserver(function(e){
+  e.forEach(function(x){
+    if(x.isIntersecting){
+      x.target.classList.add('visible');
+      obs.unobserve(x.target);
     }
   });
-}, { threshold: 0.12 });
+}, {threshold: 0.05, rootMargin: '0px 0px -20px 0px'});
 
-document.querySelectorAll('.reveal').forEach(function (el) {
-  revealObs.observe(el);
-});
+document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+
+// Force-show elements already in viewport on load
+setTimeout(function(){
+  document.querySelectorAll('.reveal').forEach(function(el){
+    var rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight){
+      el.classList.add('visible');
+    }
+  });
+}, 100);
 
 /* ── MOCKUP BAR ANIMATION ── */
 var barObs = new IntersectionObserver(function (entries) {
